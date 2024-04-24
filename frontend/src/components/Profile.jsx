@@ -164,7 +164,7 @@ function Profile() {
                 name="name"
                 className="mt-1 px-2 font-thin py-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 value={name}
-                placeholder="Change new name"
+                placeholder="Change your name"
                 onChange={handleNameChange}
               />
             </div>
@@ -198,7 +198,7 @@ function Profile() {
                 name="password"
                 className="mt-1 px-2 py-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                 value={password}
-                placeholder="change new password"
+                placeholder="change your password"
                 onChange={handlePasswordChange}
               />
               {passwordError && (

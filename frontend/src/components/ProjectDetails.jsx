@@ -19,7 +19,12 @@ import search from "../assets/search1.png";
 import rc from "../assets/redclock.png";
 import yc from "../assets/yellowclock.png";
 import arrow from "../assets/arrow.png";
+import {useStateContext} from "../context/ContextProvider.jsx"
+import ProjectHeader from "./ProjectHeader/ProjectHeader.jsx";
 const ProjectDetails = () => {
+
+const {user} =useStateContext();
+
   const { projectId } = useParams();
   const [tasks, setTasks] = useState([]);
   const [members1, setMembersAff] = useState([]);
@@ -79,8 +84,8 @@ const ProjectDetails = () => {
         );
         setTasks(tasksResponse.data);
 
-        const userResponse = await axiosClient.get("/user");
-        const user = userResponse.data;
+        // const userResponse = await axiosClient.get("/user");
+        // const user = userResponse.data;
         if (user && user.id) {
           const isChefResponse = await axiosClient.post(
             "/check-chef-permissions",
@@ -183,6 +188,8 @@ const ProjectDetails = () => {
             await axiosClient.post(`/notifications`, {
                 message: notificationMessage,
             });
+            window.location.reload();
+
             // Update UI locally if needed (instead of reload)
             // You may want to update the UI here without reloading the page
         } catch (error) {
@@ -203,15 +210,16 @@ const ProjectDetails = () => {
     <DndProvider backend={HTML5Backend}>
       <Toaster />
       <div className=" h-screen   mt-6 justify-start flex flex-col border-slate-500  items-start gap-6">
-        {project && (
-          <div className="dark:text-white  dark:bg-black dark:bg-opacity-30  w-[1240px] px-4 flex items-center justify-between  rounded-xl h-14 bg-opacity-25 bg-white  text-midnightblue">
+        {project && ( <div> 
+          <ProjectHeader handleAddMember={handleAddMember} showTable={showTable} isDropSelectdownOpen={isDropSelectdownOpen} isDropdownOpen={isDropdownOpen} handleDropdownSelect={handleDropdownSelect} toggleTable={toggleTable} isChef={isChef} project={project} members1={members1} toggleMembers={toggleMembers} handleDropdownToggle={handleDropdownToggle}  employees={employees}/>
+             {/* <div className="dark:text-white  dark:bg-black dark:bg-opacity-30  w-[1240px] px-4 flex items-center justify-between  rounded-xl h-14 bg-opacity-25 bg-white  text-midnightblue">
             <div className="flex gap-8">
               <h2 className="text-xl dark:text-indigo-400 font-semibold ">
                 {project.title}
               </h2>
               <div
                 onClick={toggleMembers}
-                className="flex hover:cursor-pointer bg-black items-center gap-2"
+                className="flex hover:cursor-pointer  items-center gap-2"
               >
                 {members1.map((member, index) =>
                   member.avatar ? (
@@ -232,10 +240,9 @@ const ProjectDetails = () => {
               </div>
             </div>
 
-            {/* <p className="text-sm mb-6">{project.description}</p> */}
 
             <div className="flex gap-2 justify-center relative items-center">
-              {/* searchbar */}
+           
               <div className="  flex border-gray-500  items-center border-2 opacity-70 justify-between px-2 py-1 rounded-2xl w-80 gap-4 ">
                 <input
                   type="text"
@@ -344,7 +351,6 @@ const ProjectDetails = () => {
                             key={employee.id}
                           >
                             <td className="pl-2 pr-5 py-2  flex items-end">
-                              {/* Afficher l'avatar de l'employé s'il existe, sinon afficher une image par défaut */}
                               {employee.avatar ? (
                                 <img
                                   className="w-8 h-8 rounded-full mr-2"
@@ -362,7 +368,6 @@ const ProjectDetails = () => {
                             </td>
                             <td className=" py-2 pl-6">{employee.email}</td>
                             <td className="px-4 flex items-center justify-center py-2">
-                              {/* Appeler handleAddMember avec l'email de l'employé */}
                               <button
                                 onClick={() => handleAddMember(employee.email)}
                                 className="dark:bg-blue-500 bg-midnightblue  flex  hover:bg-blue-700 text-white font-bold py-1 px-4 items-center justify-center rounded-full "
@@ -378,7 +383,9 @@ const ProjectDetails = () => {
                 </div>
               )}
             </div>
-          </div>
+          </div> */}
+        </div>
+       
         )}
 
         {isChef && (
@@ -401,7 +408,7 @@ const ProjectDetails = () => {
           className="  py-6 px-6 pb-40 fixed z-[100] overflow-y-scroll left-0 flex justify-center items-center right-0  bottom-0 top-0 bg-[#00000050]">
             <div
               onClick={(e) => e.stopPropagation()}
-              className={` flex flex-col justify-start pt-11 items-center  mx-0  rounded-lg h-[500px] shadow-md bg-white    dark:bg-slate-900  w-[450px]`}
+              className={` flex flex-col justify-start pt-11 items-center  mx-0  rounded-lg h-[500px] shadow-md bg-white dark:text-white    dark:bg-slate-900  w-[450px]`}
             >    <p className="text-midnightblue dark:text-indigo-500 font-bold pb-11">
                Members 
             </p>
@@ -426,7 +433,6 @@ const ProjectDetails = () => {
                             key={employee.id}
                           >
                             <td className="pl-2 pr-5 py-2  flex items-end">
-                              {/* Afficher l'avatar de l'employé s'il existe, sinon afficher une image par défaut */}
                               {employee.avatar ? (
                                 <img
                                   className="w-8 h-8 rounded-full mr-2"
@@ -444,7 +450,6 @@ const ProjectDetails = () => {
                             </td>
                             <td className=" py-2 pl-6">{employee.email}</td>
                             <td className="px-4 flex items-center justify-center py-2">
-                              {/* Appeler handleAddMember avec l'email de l'employé */}
                               <button
                                 onClick={() => handleRemoveMember(employee.email)}
                                 className="dark:bg-blue-500 bg-midnightblue  flex  hover:bg-blue-700 text-white font-bold py-1 px-4 items-center justify-center rounded-full "

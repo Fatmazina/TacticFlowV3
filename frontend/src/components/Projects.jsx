@@ -18,11 +18,13 @@ const Projects = () => {
   const loadProjects = async () => {
     setIsLoadingProjects(true);
     try {
-      const response = await axiosClient.get("/projectsWithRole", {
-        headers: {
-          "X-CSRF-TOKEN": axiosClient.defaults.headers.common["X-CSRF-TOKEN"],
-        },
-      });
+      const response = await axiosClient.get("/projectsWithRole"
+      // , {
+      //   headers: {
+      //     "X-CSRF-TOKEN": axiosClient.defaults.headers.common["X-CSRF-TOKEN"],
+      //   },
+      // }
+    );
       const { chefProjects, memberProjects } = response.data;
       setChefProjects(chefProjects);
       setMemberProjects(memberProjects);
@@ -36,12 +38,12 @@ const Projects = () => {
   };
 
   useEffect(() => {
-    const xsrfTokenMatch = document.cookie.match(/XSRF-TOKEN=(.+);/);
-    const csrfToken = xsrfTokenMatch ? xsrfTokenMatch[1] : null;
-    if (csrfToken) {
-      axiosClient.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
+    // const xsrfTokenMatch = document.cookie.match(/XSRF-TOKEN=(.+);/);
+    // const csrfToken = xsrfTokenMatch ? xsrfTokenMatch[1] : null;
+    // if (csrfToken) {
+    //   axiosClient.defaults.headers.common["X-CSRF-TOKEN"] = csrfToken;
       loadProjects();
-    }
+    // }
   }, []);
 
   const deleteProject = async (projectId) => {
